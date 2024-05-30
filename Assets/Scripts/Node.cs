@@ -43,12 +43,12 @@ public class Node : MonoBehaviour
         _y = y;
     }
 
-    /// <summary>推定コストを算出する</summary>
+    /// <summary>推定コストを計算して設定する</summary>
     /// <param name="diagonal">斜め移動の可否</param>
     /// <param name="goal_x">ゴールのX座標</param>
     /// <param name="goal_y">ゴールのY座標</param>
     /// <returns>推定コスト</returns>
-    public void GetEstimatedScore(bool diagonal, int goal_x, int goal_y)
+    public void SetEstimatedScore(bool diagonal, int goal_x, int goal_y)
     {
         // 斜め移動が可能な場合
         if (diagonal)
@@ -72,18 +72,18 @@ public class Node : MonoBehaviour
         }
     }
 
-    /// <summary>スコアを算出する</summary>
+    /// <summary>スコアを計算して返す</summary>
     /// <returns>推定コストと実コストの合計</returns>
     public int GetScore()
     {
         return _estimatedCost + _actualCost;
     }
 
-    /// <summary>ノードの状態をOpenにし、各種パラメーターを更新する</summary>
-    public void OpenNode(Node parent, int actualCost)
+    /// <summary>ステータスをOpenにし、親ノードと実コストを設定する</summary>
+    public void GetOpend(Node parent, int actualCost)
     {
         // ステータスの更新
-        _status = eStatus.Normal;
+        _status = eStatus.Open;
 
         // 親ノードを更新
         _parent = parent;
@@ -92,10 +92,16 @@ public class Node : MonoBehaviour
         _actualCost = actualCost;
     }
 
-    /// <summary>ノードの状態をClosedにし、各種パラメーターを更新する</summary>
-    public void CloseNode()
+    /// <summary>ステータスをClosedにする</summary>
+    public void GetClosed()
     {
         // ステータスの更新
         _status = eStatus.Closed;
+    }
+
+    /// <summary>ステータスがNormalかどうか</summary>
+    public bool IsNormal()
+    {
+        return _status == eStatus.Normal;
     }
 }
